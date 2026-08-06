@@ -5351,9 +5351,6 @@ jobs:
             echo "Gunyah VMID 修复已应用（已包含锁保护），跳过"
           fi
 
-      #- name: Setup tmate session
-      #  uses: mxschmitt/action-tmate@v3
-
       - name: 编译内核
         uses: nick-fields/retry@v4
         with:
@@ -5598,6 +5595,7 @@ jobs:
               if [ "${{ inputs.kernel_version }}" = "6.12" ]; then
                 LTO_FLAG="--lto=none"
               fi
+              exit 0
               tools/bazel build --disk_cache=/home/runner/.cache/bazel --config=fast $LTO_FLAG $FRAG_FLAG //common:kernel_aarch64_dist || exit 1
               strings ./bazel-bin/common/kernel_aarch64/Image | grep 'Linux version'
             fi
@@ -5605,6 +5603,15 @@ jobs:
             echo "当前 KSU 最新提交日期: ${KSU_LATEST_COMMIT_DATE}"
             echo "当前 SUSFS 最新提交日期: ${SUSFS_LATEST_COMMIT_DATE}"
             echo "如果日期不同或相差过远则补丁失效、编译失败"
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        with:
+            detached: true
+
+      - name: sleep
+        run: |
+          sleep infinty
 
       - name: 应用 KPM 补丁 (SukiSU/ReSukiSU)
         if: inputs.use_kpm && (inputs.ksu_variant == 'SukiSU' || inputs.ksu_variant == 'ReSukiSU')
