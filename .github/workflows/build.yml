@@ -5286,7 +5286,7 @@ jobs:
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           set -euo pipefail
-          openssl req -new -x509 -newkey rsa:2048 -keyout certs/signing_key.pem -out certs/signing_key.x509 -nodes -days 36500 -subj "/CN=Kernel Module Signing/"
+          openssl req -new -x509 -newkey rsa:2048 -keyout common/certs/signing_key.pem -out common/certs/signing_key.x509 -nodes -days 36500 -subj "/CN=Kernel Module Signing/"
           GUNYAH_FILE="common/drivers/virt/gunyah/gunyah_qcom.c"
           if [ ! -f "$GUNYAH_FILE" ]; then
             echo "::warning::未找到 Gunyah 驱动 ($GUNYAH_FILE)，跳过补丁"
