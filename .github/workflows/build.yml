@@ -5351,8 +5351,8 @@ jobs:
             echo "Gunyah VMID 修复已应用（已包含锁保护），跳过"
           fi
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      #- name: Setup tmate session
+      #  uses: mxschmitt/action-tmate@v3
 
       - name: 编译内核
         uses: nick-fields/retry@v4
