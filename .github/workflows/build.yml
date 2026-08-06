@@ -2534,7 +2534,7 @@ jobs:
           fi
 
       - name: 修复 6.6 WiFi/蓝牙兼容性（三星 + 小米）
-        if: inputs.kernel_version == '6.6'
+        if: inputs.kernel_version == '6.1'
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
           ensure_line_once() {
@@ -2549,33 +2549,35 @@ jobs:
             fi
           }
 
-          GALAXY_SYMBOL_LIST="android/abi_gki_aarch64_galaxy"
+          #GALAXY_SYMBOL_LIST="android/abi_gki_aarch64_galaxy"
           XIAOMI_SYMBOL_LIST="android/abi_gki_aarch64_xiaomi"
-          DRIVERS_MAKEFILE="drivers/Makefile"
-          MIN_KDP_SRC="$KERNEL_PATCHES/samsung/min_kdp/min_kdp.c"
-          MIN_KDP_PATCH="$KERNEL_PATCHES/samsung/min_kdp/add-min_kdp-symbols.patch"
-          MIN_KDP_DST="drivers/min_kdp.c"
+          #DRIVERS_MAKEFILE="drivers/Makefile"
+          #MIN_KDP_SRC="$KERNEL_PATCHES/samsung/min_kdp/min_kdp.c"
+          #MIN_KDP_PATCH="$KERNEL_PATCHES/samsung/min_kdp/add-min_kdp-symbols.patch"
+          #MIN_KDP_DST="drivers/min_kdp.c"
 
-          ensure_line_once "$GALAXY_SYMBOL_LIST" "kdp_set_cred_non_rcu"
-          ensure_line_once "$GALAXY_SYMBOL_LIST" "kdp_usecount_dec_and_test"
-          ensure_line_once "$GALAXY_SYMBOL_LIST" "kdp_usecount_inc"
+          #ensure_line_once "$GALAXY_SYMBOL_LIST" "kdp_set_cred_non_rcu"
+          #ensure_line_once "$GALAXY_SYMBOL_LIST" "kdp_usecount_dec_and_test"
+          #ensure_line_once "$GALAXY_SYMBOL_LIST" "kdp_usecount_inc"
 
-          if [ ! -f "$MIN_KDP_PATCH" ]; then
-            echo "::error::补丁不存在: $MIN_KDP_PATCH"
-            exit 1
-          fi
-          if patch -p1 --dry-run < "$MIN_KDP_PATCH" >/dev/null 2>&1; then
-            patch -p1 --no-backup-if-mismatch < "$MIN_KDP_PATCH"
-          else
-            echo "min_kdp symbols patch 已应用或当前上下文不匹配，跳过。"
-          fi
+          #if [ ! -f "$MIN_KDP_PATCH" ]; then
+          #  echo "::error::补丁不存在: $MIN_KDP_PATCH"
+          #  exit 1
+          #fi
+          #if patch -p1 --dry-run < "$MIN_KDP_PATCH" >/dev/null 2>&1; then
+          #  patch -p1 --no-backup-if-mismatch < "$MIN_KDP_PATCH"
+          #else
+          #  echo "min_kdp symbols patch 已应用或当前上下文不匹配，跳过。"
+          #fi
 
-          if [ ! -f "$MIN_KDP_SRC" ]; then
-            echo "::error::文件不存在: $MIN_KDP_SRC"
-            exit 1
-          fi
-          cp "$MIN_KDP_SRC" "$MIN_KDP_DST"
-          ensure_line_once "$DRIVERS_MAKEFILE" "obj-y += min_kdp.o"
+          #if [ ! -f "$MIN_KDP_SRC" ]; then
+          #  echo "::error::文件不存在: $MIN_KDP_SRC"
+          #  exit 1
+          #fi
+          #cp "$MIN_KDP_SRC" "$MIN_KDP_DST"
+          #ensure_line_once "$DRIVERS_MAKEFILE" "obj-y += min_kdp.o"
+
+          sed -i 's|bool use_spi_crc = 1;|bool use_spi_crc = 0;|g' /home/runner/work/Xiaomi14-8Gen3-Gunyah-Fix/Xiaomi14-8Gen3-Gunyah-Fix/android14-6.1-138/common/drivers/mmc/core/core.c
 
           ensure_line_once "$XIAOMI_SYMBOL_LIST" "device_find_any_child"
 
