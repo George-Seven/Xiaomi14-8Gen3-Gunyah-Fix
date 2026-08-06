@@ -5587,10 +5587,10 @@ jobs:
               echo "=== KSU Fragment 内容 ==="
               cat "$FRAG"
               echo "========================="
-              FRAG_FLAG=""
-              if [ -s "$FRAG" ]; then
-                FRAG_FLAG="--defconfig_fragment=//common:arch/arm64/configs/ksu.fragment"
-              fi
+              #FRAG_FLAG=""
+              #if [ -s "$FRAG" ]; then
+              #  FRAG_FLAG="--defconfig_fragment=//common:arch/arm64/configs/ksu.fragment"
+              #fi
               LTO_FLAG="--lto=thin"
               if [ "${{ inputs.kernel_version }}" = "6.12" ]; then
                 LTO_FLAG="--lto=none"
