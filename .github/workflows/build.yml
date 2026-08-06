@@ -5286,7 +5286,6 @@ jobs:
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           set -euo pipefail
-          openssl req -new -x509 -newkey rsa:2048 -keyout common/certs/signing_key.pem -out common/certs/signing_key.x509 -nodes -days 36500 -subj "/CN=Kernel Module Signing/"
           GUNYAH_FILE="common/drivers/virt/gunyah/gunyah_qcom.c"
           if [ ! -f "$GUNYAH_FILE" ]; then
             echo "::warning::未找到 Gunyah 驱动 ($GUNYAH_FILE)，跳过补丁"
@@ -5578,6 +5577,7 @@ jobs:
             sed -i 's/BUILD_SYSTEM_DLKM=1/BUILD_SYSTEM_DLKM=0/' ./common/build.config.gki.aarch64
             sed -i '/MODULES_ORDER=android\/gki_aarch64_modules/d' ./common/build.config.gki.aarch64
             sed -i '/KMI_SYMBOL_LIST_STRICT_MODE/d' ./common/build.config.gki.aarch64
+            openssl req -new -x509 -newkey rsa:2048 -keyout ./common/certs/signing_key.pem -out ./common/certs/signing_key.x509 -nodes -days 36500 -subj "/CN=Kernel Module Signing/"
 
             if [ -f "build/build.sh" ]; then
               LTO=thin BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh CC="/usr/bin/ccache clang" || exit 1
