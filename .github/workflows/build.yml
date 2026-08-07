@@ -5590,8 +5590,8 @@ jobs:
               #rm -rf "$DEFCONFIG.orig" "$DEFCONFIG"
               wget -O .defconfig.bak https://github.com/George-Seven/Xiaomi14-8Gen3-Gunyah-Fix/releases/download/test/gki_defconfig
               wget -O .defconfig.fragment.bak https://github.com/George-Seven/Xiaomi14-8Gen3-Gunyah-Fix/releases/download/test/ksu.fragment
-              find common -name "*defconfig*" -type f -exec cp -f ./.defconfig.bak {} \;
-              find commom -name "*\.fragment" -type f -exec cp ./.defconfig.fragment.bak {} \;
+              find common -name "*defconfig*" -type f -exec cp -f .defconfig.bak {} \;
+              find common -name "*\.fragment" -type f -exec cp -f .defconfig.fragment.bak {} \;
               #rm -rf "$FRAG"
               #wget -O "$FRAG" https://github.com/George-Seven/Xiaomi14-8Gen3-Gunyah-Fix/releases/download/test/ksu.fragment
               #rm -rf "$DEFCONFIG"
