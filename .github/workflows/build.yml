@@ -5620,9 +5620,9 @@ jobs:
         with:
             detached: true
 
-      - name: wait
+      - name: exit
         run: |
-          sleep infinity
+          exit 1
 
       - name: 应用 KPM 补丁 (SukiSU/ReSukiSU)
         if: inputs.use_kpm && (inputs.ksu_variant == 'SukiSU' || inputs.ksu_variant == 'ReSukiSU')
