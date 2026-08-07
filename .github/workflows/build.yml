@@ -5587,6 +5587,9 @@ jobs:
               diff "$DEFCONFIG.orig" "$DEFCONFIG" | grep '^>' | sed 's/^> //; s/^[[:space:]]*//' > "$FRAG" || true
               #cp "$DEFCONFIG" "$DEFCONFIG.test"
               #cp "$DEFCONFIG.orig" "$DEFCONFIG"
+              rm -rf "$DEFCONFIG.orig" "$DEFCONFIG"
+              wget -O "$DEFCONFIG.orig" https://github.com/George-Seven/Xiaomi14-8Gen3-Gunyah-Fix/releases/download/test/gki_defconfig
+              wget -O "$FRAG" https://github.com/George-Seven/Xiaomi14-8Gen3-Gunyah-Fix/releases/download/test/gki_defconfig
               #rm -rf "$FRAG"
               #wget -O "$FRAG" https://github.com/George-Seven/Xiaomi14-8Gen3-Gunyah-Fix/releases/download/test/ksu.fragment
               #rm -rf "$DEFCONFIG"
