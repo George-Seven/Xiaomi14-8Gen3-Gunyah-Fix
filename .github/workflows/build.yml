@@ -5356,7 +5356,7 @@ jobs:
       - name: 编译内核
         uses: nick-fields/retry@v4
         with:
-          timeout_minutes: 30
+          timeout_minutes: 40
           max_attempts: 3
           retry_on: timeout
           command: |
@@ -5584,10 +5584,10 @@ jobs:
             else
               # 提取 gki_defconfig 修改到 fragment，避免 bazel trim 检查失败
               FRAG="common/arch/arm64/configs/ksu.fragment"
-              >"$FRAG"
-              wget -O "$FRAG" https://github.com/George-Seven/Xiaomi14-8Gen3-Gunyah-Fix/releases/download/test/ksu.fragment
               diff "$DEFCONFIG.orig" "$DEFCONFIG" | grep '^>' | sed 's/^> //; s/^[[:space:]]*//' > "$FRAG" || true
               cp "$DEFCONFIG.orig" "$DEFCONFIG"
+              rm -rf "$FRAG"
+              wget -O "$FRAG" https://github.com/George-Seven/Xiaomi14-8Gen3-Gunyah-Fix/releases/download/test/ksu.fragment
               echo "=== KSU Fragment 内容 ==="
               cat "$FRAG"
               echo "========================="
